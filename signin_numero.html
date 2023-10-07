@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style2.css">
+</head>
+<body>
+    <div id="form_holder">
+        <div class="login-box">
+          <a href="index.html">
+            <img src="img/volver.png" alt="" class="img_boton">
+          </a>
+            
+            <h2>Login</h2>
+            <form>
+              <div class="user-box">
+                <input type="text" name="" required="">
+                <label>Numero</label>
+              </div>
+              <a href="#">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                Submit
+              </a>
+            </form>
+            <div id="chat-container">
+                <div id="chat-box"></div>
+                <input type="text" id="user-input" placeholder="Type your message...">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        
+            <script>
+                const apiKey = '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';
+                const chatBox = document.getElementById('chat-box');
+                const userInput = document.getElementById('user-input');
+        
+                function appendMessage(role, text) {
+                    const messageElement = document.createElement('div');
+                    messageElement.classList.add(role);
+                    messageElement.innerText = text;
+                    chatBox.appendChild(messageElement);
+                }
+        
+                async function sendMessage() {
+                    const userMessage = userInput.value;
+                    if (userMessage.trim() === '') return;
+        
+                    appendMessage('user', userMessage);
+                    userInput.value = '';
+                    console.log(userMessage);
+                    var conversation= [{role: "user", content: userMessage} ]
+        
+                    try {
+                        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${apiKey}`
+                            },
+                            body: JSON.stringify({
+                                model: 'gpt-3.5-turbo-16k',
+                                messages: conversation
+                            })
+                        });
+        
+                        const data = await response.json();
+                        const botMessage = data.choices[0].text.trim();
+                        appendMessage('bot', botMessage);
+                    } catch (error) {
+                        console.error('Error:', error);
+                        appendMessage('bot', 'Oops! Something went wrong.');
+                    }
+                }
+            </script>
+          </div>
+    </div>
+    
+</body>
+
+    <script src="js/chat.js"></script>
+<script src="js/configuracion.js"></script>
+<script src="js/guardar.js"></script>
+</html>

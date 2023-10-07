@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_Recordset1" value="name:clave;datatype:string,name:nombre;datatype:string,name:apellido_p;datatype:string,name:apellido_m;datatype:string,name:numero_tel;datatype:string,name:tarjeta_n;datatype:string,name:NIP;datatype:string" />
+</info>
